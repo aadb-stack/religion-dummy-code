@@ -1,4 +1,4 @@
-the code which u gave me: // =============================================
+// =============================================
 // World Population by Religion
 // Server-Authoritative (Firebase Anchor)
 // =============================================
