@@ -4,6 +4,10 @@
 // =============================================
 
 const { initializeApp, getDatabase, ref, get } = window.firebaseModules;
+let previousDisplay = {
+  world: null,
+  religions: {}
+};
 
 // --- CONSTANTS ---
 const secondsPerYear = 365 * 24 * 60 * 60;
@@ -89,6 +93,15 @@ function updateCounters() {
   const worldEl = document.getElementById("world");
   if (worldEl) {
     worldEl.textContent = worldInt.toLocaleString();
+
+    if (previousDisplay.world !== null) {
+      worldEl.style.color =
+        worldInt > previousDisplay.world ? "#00ff88" :
+        worldInt < previousDisplay.world ? "#ff4d4d" :
+        "white";
+    }
+
+    previousDisplay.world = worldInt;
   }
 
   for (let key in religionShares) {
@@ -97,6 +110,15 @@ function updateCounters() {
 
     const value = Math.floor(worldInt * religionShares[key]);
     el.textContent = value.toLocaleString();
+
+    if (previousDisplay.religions[key] !== undefined) {
+      el.style.color =
+        value > previousDisplay.religions[key] ? "#00ff88" :
+        value < previousDisplay.religions[key] ? "#ff4d4d" :
+        "white";
+    }
+
+    previousDisplay.religions[key] = value;
   }
 }
 
