@@ -3,12 +3,6 @@
 // Server-Authoritative (Firebase Anchor)
 // =============================================
 
-const { initializeApp, getDatabase, ref, get } = window.firebaseModules;
-let previousDisplay = {
-  world: null,
-  religions: {}
-};
-
 // --- CONSTANTS ---
 const secondsPerYear = 365 * 24 * 60 * 60;
 
