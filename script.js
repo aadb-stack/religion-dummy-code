@@ -46,7 +46,6 @@ let baseWorld = 0;
 let baseTimestamp = 0;
 let ready = false;
 let prevWorld = null;
-let previousReligions = {};
 
 // ---------- LOAD FIREBASE ----------
 async function loadAnchor() {
@@ -95,23 +94,14 @@ function update() {
     prevWorld = world;
   }
 
- for (const key in religionShares) {
-  const el = document.getElementById(key);
-  if (!el) continue;
-
-  const value = Math.floor(world * religionShares[key]);
-  el.textContent = value.toLocaleString();
-
-  if (previousReligions[key] !== undefined) {
-    el.style.color =
-      value > previousReligions[key] ? "#00ff88" :
-      value < previousReligions[key] ? "#ff4d4d" :
-      "white";
+  for (const key in religionShares) {
+    const el = document.getElementById(key);
+    if (!el) continue;
+    const value = Math.floor(world * religionShares[key]);
+    el.textContent = value.toLocaleString();
+    el.style.color = "#00ff88";
   }
-
-  previousReligions[key] = value;
 }
-
 
 // ---------- START ----------
 loadAnchor().then(() => {
