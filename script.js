@@ -3,7 +3,8 @@
 // Server-Authoritative (Firebase Anchor)
 // =============================================
 
-const { initializeApp, getDatabase, ref, get } = window.firebaseModules;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 
 // --- CONSTANTS ---
 const secondsPerYear = 365 * 24 * 60 * 60;
