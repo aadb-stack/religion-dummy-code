@@ -84,16 +84,17 @@ startCounters(baseWorld, baseTimestamp);}
 // ---------------------------------------------
 function startCounters(baseWorld, baseTimestamp) {
   setInterval(() => {
-  const elapsedYears =
-    (Date.now() - baseTimestamp) / (1000 * secondsPerYear);
+    const elapsedYears =
+      (Date.now() - baseTimestamp) / (1000 * secondsPerYear);
 
-  const world =
-    baseWorld *
-    Math.exp(WORLD_GROWTH_RATE * elapsedYears);
+    const world =
+      baseWorld *
+      Math.exp(WORLD_GROWTH_RATE * elapsedYears);
 
-  renderWorld(world);
-  renderReligions(elapsedYears);
-}, 1000);}
+    renderWorld(world);
+    renderReligions(elapsedYears);
+  }, 1000);
+} // ✅ startCounters closed
 
 // ---------------------------------------------
 // Render
