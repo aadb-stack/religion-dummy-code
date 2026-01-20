@@ -16,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const rootRef = ref(db, "/");
 const previousDisplay = {};
+const baseReligions = {};
 
 
 // ---------------------------------------------
@@ -37,6 +38,22 @@ const religionShares = {
   shinto: 3000000 / 8180000000,
   unaffiliated: 1900000000 / 8180000000
 };
+// ---------------------------------------------
+// Religion-specific growth rates (per year)
+// ---------------------------------------------
+const religionGrowthRates = {
+  christian: 0.003,      // slow growth
+  islam: 0.017,          // fast growth
+  hindu: 0.010,
+  buddhism: -0.002,      // declining
+  sikhism: 0.008,
+  judaism: 0.002,
+  taoism: -0.004,
+  confucianism: -0.003,
+  jainism: 0.001,
+  shinto: -0.006,        // declining
+  unaffiliated: 0.012
+};
 
 // ---------------------------------------------
 // Load Firebase Anchor
@@ -49,9 +66,15 @@ async function loadBase() {
     return;
   }
 
-  const { baseWorld, baseTimestamp } = snapshot.val();
-  startCounters(baseWorld, baseTimestamp);
+const { baseWorld, baseTimestamp } = snapshot.val();
+
+// STEP 3: initialize base religion populations (ONCE)
+for (const key in religionShares) {
+  baseReligions[key] = baseWorld * religionShares[key];
 }
+
+startCounters(baseWorld, baseTimestamp);
+
 
 // ---------------------------------------------
 // Counter Logic
