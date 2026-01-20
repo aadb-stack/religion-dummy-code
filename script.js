@@ -4,6 +4,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+let GLOBAL_BASE_TIMESTAMP = 0;
 
 // ---------------------------------------------
 // Firebase Config
@@ -68,7 +69,9 @@ async function loadBase() {
 
 const { baseWorld, baseTimestamp } = snapshot.val();
 
-// STEP 3: initialize base religion populations (ONCE)
+GLOBAL_BASE_TIMESTAMP = baseTimestamp;
+
+// initialize base religions
 for (const key in religionShares) {
   baseReligions[key] = baseWorld * religionShares[key];
 }
@@ -81,7 +84,8 @@ startCounters(baseWorld, baseTimestamp);
 // ---------------------------------------------
 function startCounters(baseWorld, baseTimestamp) {
   setInterval(() => {
-    const elapsed = (Date.now() - baseTimestamp) / 1000;
+    const elapsed = (Date.now() - GLOBAL_BASE_TIMESTAMP)
+ / 1000;
     const world =
       baseWorld *
       Math.exp(WORLD_GROWTH_RATE * (elapsed / secondsPerYear));
@@ -116,15 +120,14 @@ function renderReligions(world) {
     const el = document.getElementById(key);
     if (!el) continue;
 
-   const elapsedYears =
-  (Date.now() - baseTimestamp) / (1000 * secondsPerYear);
+    const elapsedYears =
+      (Date.now() - GLOBAL_BASE_TIMESTAMP) / (1000 * secondsPerYear);
 
-const raw =
-  baseReligions[key] *
-  Math.exp(religionGrowthRates[key] * elapsedYears);
+    const raw =
+      baseReligions[key] *
+      Math.exp(religionGrowthRates[key] * elapsedYears);
 
-const display = Math.floor(raw);
-
+    const display = Math.floor(raw);
     const prev = previousDisplay[key] ?? display;
 
     el.textContent = display.toLocaleString();
@@ -137,7 +140,6 @@ const display = Math.floor(raw);
     previousDisplay[key] = display;
   }
 }
-
 
 // ---------------------------------------------
 // Run
