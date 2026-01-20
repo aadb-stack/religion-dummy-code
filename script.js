@@ -15,7 +15,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const rootRef = ref(db, "/");
-const previousInt = {};
+const previousDisplay = {};
+
 
 // ---------------------------------------------
 // Constants
@@ -74,20 +75,17 @@ function renderWorld(val) {
   const el = document.getElementById("world");
   if (!el) return;
 
-  const currentInt = Math.floor(val);
-  const prevInt = previousInt.world ?? currentInt;
+  const display = Math.floor(val);
+  const prev = previousDisplay.world ?? display;
 
-  el.textContent = currentInt.toLocaleString();
+  el.textContent = display.toLocaleString();
 
-  if (currentInt > prevInt) {
-    el.style.color = "#00ff88";
-  } else if (currentInt < prevInt) {
-    el.style.color = "#ff4d4d";
-  } else {
-    el.style.color = "#ffffff";
-  }
+  el.style.color =
+    display > prev ? "#00ff88" :
+    display < prev ? "#ff4d4d" :
+    "white";
 
-  previousInt.world = currentInt;
+  previousDisplay.world = display;
 }
 
 function renderReligions(world) {
@@ -95,22 +93,17 @@ function renderReligions(world) {
     const el = document.getElementById(key);
     if (!el) continue;
 
-    const raw = world * religionShares[key];
-    const currentInt = Math.floor(raw);
-    const prevInt = previousInt[key] ?? currentInt;
+    const display = Math.floor(world * religionShares[key]);
+    const prev = previousDisplay[key] ?? display;
 
-    el.textContent = currentInt.toLocaleString();
+    el.textContent = display.toLocaleString();
 
-    // ✅ COLOR ONLY IF INTEGER CHANGES
-    if (currentInt > prevInt) {
-      el.style.color = "#00ff88";
-    } else if (currentInt < prevInt) {
-      el.style.color = "#ff4d4d";
-    } else {
-      el.style.color = "#ffffff";
-    }
+    el.style.color =
+      display > prev ? "#00ff88" :
+      display < prev ? "#ff4d4d" :
+      "white";
 
-    previousInt[key] = currentInt;
+    previousDisplay[key] = display;
   }
 }
 
