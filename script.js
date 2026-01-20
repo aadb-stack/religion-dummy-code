@@ -67,16 +67,16 @@ async function loadBase() {
     return;
   }
 
-const { baseWorld, baseTimestamp } = snapshot.val();
+  const { baseWorld, baseTimestamp } = snapshot.val();
+  GLOBAL_BASE_TIMESTAMP = baseTimestamp;
 
-GLOBAL_BASE_TIMESTAMP = baseTimestamp;
+  for (const key in religionShares) {
+    baseReligions[key] = baseWorld * religionShares[key];
+  }
 
-// initialize base religions
-for (const key in religionShares) {
-  baseReligions[key] = baseWorld * religionShares[key];
-}
+  startCounters(baseWorld, baseTimestamp);
+} // 👈 THIS was missing
 
-startCounters(baseWorld, baseTimestamp);}
 
 
 // ---------------------------------------------
