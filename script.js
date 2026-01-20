@@ -70,15 +70,45 @@ function startCounters(baseWorld, baseTimestamp) {
 // Render
 // ---------------------------------------------
 function renderWorld(val) {
-  document.getElementById("world").textContent =
-    Math.floor(val).toLocaleString();
+  const el = document.getElementById("world");
+  if (!el) return;
+
+  const current = Math.floor(val);
+  const prev = previousDisplay.world ?? current;
+
+  el.textContent = current.toLocaleString();
+
+  if (current > prev) {
+    el.style.color = "#00ff88"; // green
+  } else if (current < prev) {
+    el.style.color = "#ff4d4d"; // red (theoretical)
+  } else {
+    el.style.color = "#ffffff"; // white
+  }
+
+  previousDisplay.world = current;
 }
 
 function renderReligions(world) {
   for (const key in religionShares) {
     const el = document.getElementById(key);
     if (!el) continue;
-    el.textContent = Math.floor(world * religionShares[key]).toLocaleString();
+
+    const current = Math.floor(world * religionShares[key]);
+    const prev = previousDisplay[key] ?? current;
+
+    el.textContent = current.toLocaleString();
+
+    // EXACT behavior you want
+    if (current > prev) {
+      el.style.color = "#00ff88"; // increase
+    } else if (current < prev) {
+      el.style.color = "#ff4d4d"; // decrease
+    } else {
+      el.style.color = "#ffffff"; // NO CHANGE → WHITE
+    }
+
+    previousDisplay[key] = current;
   }
 }
 
