@@ -41,21 +41,27 @@ const religionShares = {
   unaffiliated: 1900000000 / CLEAN_WORLD
 };
 // ---------------------------------------------
-// Religion-specific growth rates (per year)
+// Religion-specific net population growth rates (approx. per year)
+// Based on Pew Research Center global change 2010–2020 data,
+// annualized and adjusted using UN World Population Prospects 2024
+// to reflect early-2020s demographic trends.
+// These are NET rates: (births - deaths + switching).
 // ---------------------------------------------
 const religionGrowthRates = {
-  christian: 0.003,      // slow growth
-  islam: 0.017,          // fast growth
-  hindu: 0.010,
-  buddhism: -0.002,      // declining
-  sikhism: 0.008,
-  judaism: 0.002,
-  taoism: -0.004,
-  confucianism: -0.003,
-  jainism: 0.001,
-  shinto: -0.006,        // declining
-  unaffiliated: 0.012
+  christian: 0.0038,       // ~0.38% per year (slow, mixed regional trends)
+  islam: 0.0180,           // ~1.8% per year (fastest growth, high fertility + young age)
+  hindu: 0.0070,           // ~0.7% per year (slowing after fertility decline in India)
+  buddhism: -0.0012,       // ~-0.12% per year (aging + very low fertility in East Asia)
+  sikhism: 0.0045,         // ~0.45% per year (moderate natural increase)
+  judaism: 0.0010,         // ~0.10% per year (small global base, mixed fertility)
+  taoism: -0.0020,         // ~-0.20% per year (decline driven by China demographics)
+  confucianism: -0.0020,   // ~-0.20% per year (decline driven by China demographics)
+  jainism: 0.0015,         // ~0.15% per year (small, slow positive growth)
+  shinto: -0.0050,         // ~-0.50% per year (strong decline, Japan aging crisis)
+  unaffiliated: 0.0100     // ~1.0% per year (switching-driven, low fertility)
 };
+
+
 
 // ---------------------------------------------
 // Load Firebase Anchor
